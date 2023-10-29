@@ -30,9 +30,9 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.11.6"
-    - name: make setup detatched
+    - name: make setup detached
       run: |
-        make setup-detatched
+        make setup-detached
 
     - uses: cygnetdigital/wait_for_response@v2.0.0
       with:
