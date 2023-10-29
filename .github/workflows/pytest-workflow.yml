@@ -22,10 +22,12 @@ jobs:
         with:
           black_args: ". --check"
 
-  build:
+  Build-Test:
+    name: Setup Enviornment and Run Tests
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Use Actions 3
+      uses: actions/checkout@v3
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
@@ -34,8 +36,8 @@ jobs:
       run: |
         make setup-detached
 
-    - uses: cygnetdigital/wait_for_response@v2.0.0
-      name: Check API is Up
+    - name: Check API is Up
+      uses: cygnetdigital/wait_for_response@v2.0.0
       with:
         url: 'http://localhost:5000/docs'
         responseCode: '200,500'
