@@ -1,0 +1,70 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Pytest report
+
+on: [push, pull_request]
+  # push:
+  #   branches: [ "github_action" ]
+  # pull_request:
+  #   branches: [ "develop" ]
+
+permissions:
+  contents: read
+
+jobs:
+  linter_name:
+    name: runner / black formatter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: rickstaa/action-black@v1
+        with:
+          black_args: ". --check"
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.11.6"
+    - name: make setup detatched
+      run: |
+        make setup-detatched
+
+    - uses: cygnetdigital/wait_for_response@v2.0.0
+      with:
+        url: 'http://localhost:5000/docs'
+        responseCode: '200,500'
+        timeout: 120000 # wait up to 120 seconds 
+        interval: 5000 # poll every 5 seconds
+
+    - name: UnitTest with pytest
+      run: |
+        make test-report
+
+      # https://github.com/marketplace/actions/pytest-results-actions
+    - name: Surface failing tests
+      if: always()
+      uses: pmeier/pytest-results-action@main
+      with:
+        # A list of JUnit XML files, directories containing the former, and wildcard
+        # patterns to process.
+        # See @actions/glob for supported patterns.
+        path: pytest_report.xml
+
+        # Add a summary of the results at the top of the report
+        # Default: true
+        summary: true
+
+        # Select which results should be included in the report.
+        # Follows the same syntax as
+        # `pytest -r`
+        # Default: fEX
+        display-options: fEX
+
+        # Fail the workflow if no JUnit XML was found.
+        # Default: true
+        fail-on-empty: true
