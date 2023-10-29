@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   linter_name:
-    name: runner / black formatter
+    name: Black Syntax Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,27 +26,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python 3
+    - name: Set up Python
       uses: actions/setup-python@v3
       with:
         python-version: "3.11.6"
-    - name: make setup detached
+    - name: Setup Docker Containers
       run: |
         make setup-detached
 
     - uses: cygnetdigital/wait_for_response@v2.0.0
+      name: Check API is Up
       with:
         url: 'http://localhost:5000/docs'
         responseCode: '200,500'
         timeout: 120000 # wait up to 120 seconds 
         interval: 5000 # poll every 5 seconds
 
-    - name: UnitTest with pytest
+    - name: Generate Pytest Report
       run: |
         make test-report
 
       # https://github.com/marketplace/actions/pytest-results-actions
-    - name: Surface failing tests
+    - name: Surface Failing Tests
       if: always()
       uses: pmeier/pytest-results-action@main
       with:
