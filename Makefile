@@ -50,7 +50,7 @@ docker-build: ## Startup docker with build switch
 	docker-compose --verbose up --build
 
 docker-build-detached: ## Startup docker with build switch
-	docker-compose --verbose up --build -d
+	docker-compose up --build -d
 
 setup: requirements venv-create pre-commit-setup docker-build test-setup api-setup ## setup & run after downloaded repo
 
@@ -65,6 +65,8 @@ pre-commit: ## Run pre-commit
 
 test-setup: ## installs pytest singular package for local testing
 	python3 -m pip install pytest
+	python3 -m pip install requests
+	python3 -m pip install json
 
 requirements: ## installs all requirements
 	python3 -m pip install -r requirements.txt
