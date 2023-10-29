@@ -66,7 +66,7 @@ pre-commit: ## Run pre-commit
 test-setup: ## installs pytest singular package for local testing
 	python3 -m pip install pytest
 	python3 -m pip install requests
-	python3 -m pip install json
+	python3 -m pip install hypothesis
 
 requirements: ## installs all requirements
 	python3 -m pip install -r requirements.txt
