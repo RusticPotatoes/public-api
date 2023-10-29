@@ -32,20 +32,20 @@ detailed guide in sections below
 ### Install make and pip
 #### Debian 
 distros such as ubuntu, mint, pop, kali
-```ssh
+```sh
 public-api$ sudo apt install make
 public-api$ sudo apt install python3-pip
 ```
 
 #### Red Hat 
 distros such as fedora, centos, rocky
-```ssh
+```sh
 public-api$ sudo yum install make
 public-api$ sudo yum install python3-pip
 ```
 
 #### Arch Linux
-```ssh
+```sh
 public-api$ sudo pacman -Syu make
 public-api$ sudo pacman -Syu python3-pip
 ```
@@ -53,7 +53,7 @@ public-api$ sudo pacman -Syu python3-pip
 #### MacOS
 typically requires xcode command line tools from http://developer.apple.com/ 
 or using homebrew from https://brew.sh/ (example below). note the command it installs is `gmake`, ideally just make an alias `make` by adding it to your bash profile
-```ssh
+```sh
 public-api$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 public-api$ brew --version
 Homebrew 4.1.17
@@ -62,12 +62,12 @@ public-api$ brew install python3-pip
 ```
 
 add your alias to your bash profile (loaded on terminal start)
-```ssh
+```sh
 public-api$ nano ~/.bash_profile
 ```
 
 ctrl+x and enter to save once you have added the alias line (example below line to add)
-```ssh
+```sh
 alias make="gmake"
 ```
 
@@ -75,19 +75,19 @@ alias make="gmake"
 
 #### Setup
 run the following command to create your venv
-```ssh
+```sh
 public-api$ make venv-create
 ```
 
 ####  Activate
 next command is to activate your virtiual envionrment, you should see (.venv) to the far left of your prompt showing you what env you are in
-```ssh
+```sh
 public-api$ source .venv/bin/activate
 (.venv) public-api$ 
 ```
 
 if you ever need to get out of the virtual enviornment run the `deactivate` command
-```ssh
+```sh
 (.venv) public-api$ deactivate
 public-api$ 
 ```
@@ -119,7 +119,6 @@ venv-remove          removes the .venv folder
 ```
 
 ### Docker
-
 #### Pre-reqs
 - docker
 - python3
@@ -142,6 +141,9 @@ run `docker-down`
 
 ```sh
 (.venv) public-api$ make docker-down
+```
+the outcome should be like
+```sh
 docker-compose down
 [+] Running 6/6
  ✔ Container kafdrop                       Removed  10.2s 
@@ -156,6 +158,9 @@ docker-compose down
 run `docker-up`. example below is using public-api
 ```sh
 (.venv) public-api$ make docker-up
+```
+the outcome should be like
+```sh
 docker-compose --verbose up
 [+] Building 0.0s (0/0)                              
 [+] Running 7/5
@@ -181,6 +186,9 @@ run `docker-force-rebuild`. usually done if requirements.txt are changed.  or if
 run `test`
 ```sh
 (.venv) public-api$ make test
+```
+the outcome should be like
+```sh
 
 python3 -m pytest --verbosity=1 --rootdir=./
 =============== test session starts ===============
