@@ -46,7 +46,7 @@ docker-up: ## Startup docker
 docker-build: ## Startup docker with build switch
 	docker-compose --verbose up --build
 
-setup: requirements venv-create pre-commit-setup docker-build test-setup api-setup ## setup & run after downloaded repo
+setup: requirements pre-commit-setup docker-build test-setup api-setup ## setup & run after downloaded repo
 
 pre-commit-setup: ## Install pre-commit
 	python3 -m pip install pre-commit
