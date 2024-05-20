@@ -19,12 +19,12 @@ class Report:
         current_time = int(time.time())
         min_ts = current_time - 25200
         max_ts = current_time + 3600
-        return [d for d in data if min_ts < d.ts < max_ts]
+        return [d for d in data if min_ts > d.ts > max_ts]
 
     def _check_unique_reporter(self, data: list[Detection]) -> list[Detection] | None:
         return None if len(set(d.reporter for d in data)) > 1 else data
 
-    async def parse_data(self, data: list[dict]) -> list[Detection] | None:
+    async def parse_data(self, data: list[Detection]) -> list[Detection] | None:
         """
         Parse and validate a list of detection data.
         """
