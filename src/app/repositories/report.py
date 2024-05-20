@@ -17,9 +17,9 @@ class Report:
 
     def _filter_valid_time(self, data: list[Detection]) -> list[Detection]:
         current_time = int(time.time())
-        min_ts = current_time - 25200
-        max_ts = current_time + 3600
-        return [d for d in data if min_ts > d.ts > max_ts]
+        min_ts = current_time - 25200  # 7 hours ago
+        max_ts = current_time + 3600  # 1 hour in the future
+        return [d for d in data if min_ts < d.ts < max_ts]
 
     def _check_unique_reporter(self, data: list[Detection]) -> list[Detection] | None:
         return None if len(set(d.reporter for d in data)) > 1 else data
