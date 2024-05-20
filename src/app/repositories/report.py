@@ -19,7 +19,19 @@ class Report:
         current_time = int(time.time())
         min_ts = current_time - 25200  # 7 hours ago
         max_ts = current_time + 3600  # 1 hour in the future
-        return [d for d in data if min_ts < d.ts < max_ts]
+        # [d for d in data if min_ts < d.ts < max_ts]
+        output = []
+
+        for d in data:
+            if d.ts <= min_ts:
+                logger.info(f"invalid: {d.ts} <= {min_ts}, {d.reporter}")
+                continue
+            if d.ts >= max_ts:
+                logger.info(f"invalid: {d.ts} >= {max_ts}, {d.reporter}")
+                continue
+            output.append(d)
+
+        return output
 
     def _check_unique_reporter(self, data: list[Detection]) -> list[Detection] | None:
         return None if len(set(d.reporter for d in data)) > 1 else data
