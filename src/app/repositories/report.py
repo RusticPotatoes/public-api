@@ -24,10 +24,14 @@ class Report:
 
         for d in data:
             if d.ts <= min_ts:
-                logger.info(f"invalid: {d.ts} <= {min_ts}, {d.reporter}")
+                logger.info(
+                    f"invalid: {d.ts} <= {min_ts}, now={current_time}, {d.reporter}"
+                )
                 continue
             if d.ts >= max_ts:
-                logger.info(f"invalid: {d.ts} >= {max_ts}, {d.reporter}")
+                logger.info(
+                    f"invalid: {d.ts} >= {max_ts}, now={current_time}, {d.reporter}"
+                )
                 continue
             output.append(d)
 
