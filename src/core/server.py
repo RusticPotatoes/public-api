@@ -42,6 +42,14 @@ async def lifespan(app: FastAPI):
     logger.info("startup initiated")
     config.producer = await _kafka.kafka_producer()
     config.send_queue = asyncio.Queue(maxsize=500)
+    asyncio.create_task(
+        _kafka.send_messages(
+            topic="report",
+            producer=config.producer,
+            send_queue=config.send_queue,
+            shutdown_event=config.sd_event,
+        )
+    )
     yield
     config.sd_event.set()
     await config.producer.stop()
