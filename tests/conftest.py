@@ -1,4 +1,5 @@
 # conftest.py
+import asyncio
 import os
 import sys
 from contextlib import asynccontextmanager
@@ -15,6 +16,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.core import server  # noqa: E402
 from src.core.fastapi.dependencies.session import get_session  # noqa: E402
+from src.core import config
 
 # Create an async SQLAlchemy engine
 engine = create_async_engine(
@@ -52,6 +54,7 @@ def app() -> FastAPI:
 @pytest.fixture
 @asynccontextmanager
 async def custom_client(app: FastAPI):
+    config.send_queue = asyncio.Queue(maxsize=500)
     base_url = "http://srv.test/"
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url=base_url) as client:
