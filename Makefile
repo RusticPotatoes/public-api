@@ -12,6 +12,12 @@ for line in sys.stdin:
 endef
 export PRINT_HELP_PYSCRIPT
 
+export ENV=DEV
+export DATABASE_URL=mysql+aiomysql://root:root_bot_buster@localhost/playerdata
+export KAFKA_HOST=localhost:9094
+export POOL_RECYCLE=60
+export POOL_TIMEOUT=30
+
 help:
 	@python3 -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
@@ -78,6 +84,7 @@ test-setup: pre-commit-setup## installs pytest singular package for local testin
 	python3 -m pip install pytest 
 	python3 -m pip install requests 
 	python3 -m pip install hypothesis
+	python3 -m pip install pytest-asyncio
 
 requirements: ## installs all requirements
 	python3 -m pip install -r requirements.txt
